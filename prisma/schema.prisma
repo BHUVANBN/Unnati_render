@@ -1,0 +1,249 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id    String @id @default(uuid())
+  name  String
+  email String @unique
+}
+
+model Image {
+  id                    String      @id @default(uuid())
+  type                  ImageType
+  url                   String
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  blogs                 Blog[]
+  companies             Company[]
+  courses               Course[]
+  placements            Placement[]
+  backgroundForSettings Setting[]   @relation("SettingBackgroundImage")
+  setting               Setting[]
+  trainers              Trainer[]
+}
+
+model Topic {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  faqs      Faq[]
+}
+
+model Faq {
+  id        String   @id @default(uuid())
+  topicId   String
+  question  String
+  answer    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  topic     Topic    @relation(fields: [topicId], references: [id])
+}
+
+model Blog {
+  slug           String         @id
+  title          String
+  content        String
+  imageId        String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  authorId       String?
+  excerpt        String?
+  isPublished    Boolean        @default(false)
+  seoDescription String?
+  seoTitle       String?
+  User           User?          @relation(fields: [authorId], references: [id])
+  thumbnail      Image?         @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  BlogCategory   BlogCategory[]
+}
+
+model Branch {
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  latitude  Float
+  longitude Float
+  phone     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Trainer {
+  id          String   @id @default(uuid())
+  name        String
+  bio         String?
+  expertise   String
+  experience  String
+  designation String
+  imageId     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  photo       Image?   @relation(fields: [imageId], references: [id], onDelete: Cascade)
+}
+
+model Company {
+  id         String      @id @default(uuid())
+  name       String
+  isPremium  Boolean     @default(false)
+  imageId    String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  logo       Image       @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  placements Placement[]
+}
+
+model Placement {
+  id           String        @id @default(uuid())
+  name         String
+  role         String
+  imageId      String
+  companyId    String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  company      Company       @relation(fields: [companyId], references: [id])
+  photo        Image         @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  testimonials Testimonial[]
+}
+
+model Testimonial {
+  id          String    @id @default(uuid())
+  content     String
+  rating      Int
+  placementId String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  placement   Placement @relation(fields: [placementId], references: [id])
+}
+
+model Course {
+  id              String    @id @default(uuid())
+  title           String
+  description     String
+  additionalInfo  Json
+  syllabus        Json
+  targetAudiences String[]
+  imageId         String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  contacts        Contact[]
+  thumbnail       Image?    @relation(fields: [imageId], references: [id], onDelete: Cascade)
+}
+
+model Usp {
+  id           String   @id @default(uuid())
+  heading      String
+  subheading   String
+  bulletPoints String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Setting {
+  id                String   @id @default(uuid())
+  welcomeText       String?
+  introParagraph    String?
+  stats             Json?
+  email             String?
+  logoId            String?
+  phone             String?
+  address           String?
+  socialLinks       Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  backgroundImageId String?
+  backgroundImage   Image?   @relation("SettingBackgroundImage", fields: [backgroundImageId], references: [id], onDelete: Cascade)
+  logo              Image?   @relation(fields: [logoId], references: [id], onDelete: Cascade)
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  phone     String
+  email     String
+  courseId  String
+  orgName   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  course    Course   @relation(fields: [courseId], references: [id])
+}
+
+model BlogCategory {
+  blogSlug   String
+  categoryId String
+  createdAt  DateTime @default(now())
+  Blog       Blog     @relation(fields: [blogSlug], references: [slug], onDelete: Cascade)
+  Category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([blogSlug, categoryId])
+}
+
+model Category {
+  id           String         @id
+  name         String         @unique
+  slug         String         @unique
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime
+  BlogCategory BlogCategory[]
+}
+
+model Page {
+  id             String   @id
+  title          String
+  slug           String   @unique
+  content        String
+  isPublished    Boolean  @default(false)
+  seoTitle       String?
+  seoDescription String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime
+}
+
+model Role {
+  id        String     @id
+  name      String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime
+  UserRole  UserRole[]
+}
+
+model User {
+  id            String     @id
+  name          String
+  email         String     @unique
+  password      String
+  emailVerified DateTime   @default(now())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime
+  Blog          Blog[]
+  UserRole      UserRole[]
+}
+
+model UserRole {
+  userId    String
+  roleId    String
+  createdAt DateTime @default(now())
+  Role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+enum ImageType {
+  LOGO
+  HERO
+  BLOG
+  COMPANY
+  COURSE
+  SYLLABUS
+  PLACEMENT
+  BACKGROUND
+  TRAINER
+}
