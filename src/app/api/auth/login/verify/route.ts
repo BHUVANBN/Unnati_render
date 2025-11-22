@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import OTPService from "@/services/otp";
 import { generateTokens } from "@/lib/token";
 import { db } from "@/lib/db";
+import mailService from "@/services/email";
 export const POST = async (req: NextRequest) => {
   const { email, otp } = (await req.json()) as VerifyLogin;
   if (!email || !otp) {
@@ -27,6 +28,20 @@ export const POST = async (req: NextRequest) => {
   }
 
   const { accessToken, refreshToken } = await generateTokens({ id: admin.id });
+   // Send login notification email
+  try {
+    await mailService.sendEmail(
+      'bhuvanbn01@gmail.com',
+      'Admin Login Notification - Unnati',
+      `An admin has logged in to the system.\n\n` +
+      `Email: ${admin.email}\n` +
+      `Time: ${new Date().toLocaleString()}\n` +
+      `Site: https://unnati-render.onrender.com\n`
+    );
+  } catch (error) {
+    console.error('Failed to send login notification email:', error);
+  }
+
   const response = NextResponse.json(
     {
       message: "Logged in successfully",
