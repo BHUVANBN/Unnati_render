@@ -109,7 +109,7 @@ export const Footer = ({ logoUrl }: FooterProps) => {
                 <div className="mt-16 pt-8 border-t border-white/20">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <p className="text-white/60 text-sm">
-                            © 2024 Unnati IT Solutions. All rights reserved.
+                            © 2026 Unnati IT Solutions. All rights reserved.
                         </p>
                         <div className="flex space-x-6">
                             <Link href="#" className="text-white/60 hover:text-white text-sm transition-colors">

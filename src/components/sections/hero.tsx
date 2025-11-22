@@ -43,7 +43,7 @@ export const Hero = ({ welcomeText, introParagraph, imageUrl }: HeroProps) => {
                     {/* Event badge */}
                     <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-md border border-white/30 rounded-full mb-8 shadow-xl">
                         <span className="w-3 h-3 bg-green-400 rounded-full mr-3 animate-pulse"></span>
-                        <span className="text-white text-base font-semibold">Now Enrolling for 2024 - Limited Seats Available</span>
+                        <span className="text-white text-base font-semibold">Now Enrolling for 2026 - Limited Seats Available</span>
                     </div>
                     
                     <h1 className="text-4xl xs:text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight tracking-tight px-4">
