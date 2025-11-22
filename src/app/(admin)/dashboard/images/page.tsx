@@ -20,6 +20,7 @@ import { OverlaySpinner } from "@/components/dashboard/common/overlay-spinner";
 import { PaginationControls } from "@/components/dashboard/common/pagination-controls";
 import { PageHeader } from "@/components/dashboard/common/page-header";
 import { EmptyState } from "@/components/dashboard/common/empty-state";
+import { ImagesSkeleton } from "./images-skeleton";
 
 const ALL = "ALL" as const;
 type AllOrType = typeof ALL | ImageType;
@@ -144,21 +145,4 @@ export default function ImagesPage() {
         </div>
     );
 }
-
-
-export const ImagesSkeleton = () => {
-    return (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-                <Card key={i} className="overflow-hidden">
-                    <Skeleton className="aspect-video" />
-                    <div className="flex items-center justify-between px-4 py-3">
-                        <Skeleton className="h-5 w-16" />
-                        <Skeleton className="h-4 w-24" />
-                    </div>
-                </Card>
-            ))}
-        </div>
-    );
-};
 

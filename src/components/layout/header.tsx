@@ -95,8 +95,8 @@ export const Header = ({ logoUrl, phone, email, social, showCoursesNewBadge = fa
                     </Link>
                 </div>
             </div>
-            {/* Header Nav */}
-            <nav className={`fixed top-10 left-0 right-0 w-full transition-all duration-300 z-[60] bg-white shadow-lg border-b border-gray-200`}>
+            {/* Header Nav with Glass Effect */}
+            <nav className={`fixed top-10 left-0 right-0 w-full transition-all duration-300 z-[60] bg-white/80 backdrop-blur-sm shadow-lg border-b border-white/20`}>
                 <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-8">
                     {/* Logo */}
                     <div className="flex items-center space-x-3">

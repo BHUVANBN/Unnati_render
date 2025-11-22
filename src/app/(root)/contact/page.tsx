@@ -63,10 +63,11 @@ async function submitContactForm(formData: FormData) {
 export default async function ContactPage({
   searchParams,
 }: {
-  searchParams: { success?: string };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const courses = await getCourses();
-  const isSuccess = searchParams.success === "true";
+  const params = await searchParams;
+  const isSuccess = params.success === "true";
 
   return (
     <div className="min-h-screen bg-background">
