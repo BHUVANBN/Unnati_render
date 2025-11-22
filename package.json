@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "next dev",
         "build": "pnpm prisma generate && next build",
+        "predeploy": "pnpm prisma migrate deploy",
         "postinstall": "pnpm prisma generate",
         "start": "next start",
         "lint": "biome check",
