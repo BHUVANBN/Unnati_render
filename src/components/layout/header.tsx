@@ -63,9 +63,9 @@ export const Header = ({ logoUrl, phone, email, social, showCoursesNewBadge = fa
     }, []);
 
     return (
-        <>
-            {/* Top Bar */}
-            <div className="w-full bg-gradient-to-r from-sky-600 to-blue-600 flex items-center justify-between px-6 py-3 text-xs text-white/90 border-b border-white/20 relative z-[60]">
+        <div className="sticky top-0 z-50">
+            {/* Top Contact Bar */}
+            <div className="w-full bg-gradient-to-r from-sky-600 to-blue-600 flex items-center justify-between px-6 py-2 text-xs text-white/90 border-b border-white/20">
                 <div className="flex items-center gap-6">
                     {phone && (
                         <span className="flex items-center gap-2 hover:text-white transition-colors">
@@ -95,9 +95,10 @@ export const Header = ({ logoUrl, phone, email, social, showCoursesNewBadge = fa
                     </Link>
                 </div>
             </div>
-            {/* Header Nav with Glass Effect */}
-            <nav className={`fixed top-10 left-0 right-0 w-full transition-all duration-300 z-[60] bg-white/80 backdrop-blur-sm shadow-lg border-b border-white/20`}>
-                <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-8">
+            
+            {/* Main Navigation Bar */}
+            <nav className={`w-full bg-white/90 backdrop-blur-sm shadow-lg border-b border-white/20 transition-all duration-300 ${isScrolled ? 'fixed top-0' : ''}`}>
+                <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 md:px-8">
                     {/* Logo */}
                     <div className="flex items-center space-x-3">
                         <Link href="/" aria-label="Home">
@@ -227,6 +228,6 @@ export const Header = ({ logoUrl, phone, email, social, showCoursesNewBadge = fa
                     </div>
                 )}
             </nav>
-        </>
+        </div>
     );
 };
